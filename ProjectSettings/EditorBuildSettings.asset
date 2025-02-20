@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/FlappyPlaneScene.unity
+    guid: f92116f2f534e8e4e8aefe34be7ed215
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: ec20bca7d6c6a9540b2dceaca2a28d45
   m_configObjects: {}
