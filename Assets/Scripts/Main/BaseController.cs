@@ -13,14 +13,17 @@ public class BaseController : MonoBehaviour
 
     public float Speed;
 
+    protected Animator animator = null;
+
     protected bool IsMove = false;
-    protected bool IsRightFoot = true;
     protected bool IsRun = false;
     protected bool IsRayCheck = false;
 
     Vector2 targetPosition;
 
     [SerializeField] private SpriteRenderer renderer;
+    
+
 
     protected virtual void Awake()
     {
@@ -29,6 +32,7 @@ public class BaseController : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        animator = transform.GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -61,6 +65,7 @@ public class BaseController : MonoBehaviour
                 if (hit.collider.gameObject.GetComponentInParent<Enter>() == false)
                 {
                     IsMove = false;
+                    animator.SetBool("IsMove", IsMove);
                     return;
                 }
             }
@@ -78,8 +83,11 @@ public class BaseController : MonoBehaviour
 
         if (Vector2.Distance(transform.position, targetPosition) < 0.01f)
         {
+            bool a = !animator.GetBool("IsRightFoot");
+            animator.SetBool("IsRightFoot", a);
             transform.position = targetPosition;
             IsMove = false;
+            animator.SetBool("IsMove", IsMove);
         }
     }
 }
