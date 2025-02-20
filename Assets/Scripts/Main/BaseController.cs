@@ -18,6 +18,8 @@ public class BaseController : MonoBehaviour
     protected bool IsRun = false;
     protected bool IsRayCheck = false;
 
+    Vector2 targetPosition;
+
     [SerializeField] private SpriteRenderer renderer;
 
     protected virtual void Awake()
@@ -45,24 +47,25 @@ public class BaseController : MonoBehaviour
             return;
         }
 
-        Vector2 targetPosition = Vector2.zero;
-
         if (IsRayCheck)
         {
             IsRayCheck = false;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Dir, 1.5f);
+            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + (1.0f * Dir), Dir, 0.2f);
 
-            Debug.DrawRay(transform.position, Dir * 1.5f, Color.red, 0.1f);
-
-            if (hit.collider != GetComponent<Collider2D>() && hit.collider != null)
+            Debug.DrawRay((Vector2)transform.position + (1.0f * Dir), Dir, Color.red, 0.2f);
+            
+            Collider2D CharactorCol = GetComponent<Collider2D>();
+            if (hit.collider != null)
             {
-                IsMove = false;
-                return;
+                bool a = hit.collider.gameObject.GetComponentInParent<Enter>();
+                if (hit.collider.gameObject.GetComponentInParent<Enter>() == false)
+                {
+                    IsMove = false;
+                    return;
+                }
             }
 
             targetPosition = (Vector2)transform.position + Dir;
-            
-            
         }
 
         float stateSpeed = Speed;
@@ -71,9 +74,9 @@ public class BaseController : MonoBehaviour
             stateSpeed *= 1.5f;
         }
 
-        transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * stateSpeed);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * stateSpeed);
 
-        if (Vector2.Distance(transform.position, targetPosition) > 0.00005f)
+        if (Vector2.Distance(transform.position, targetPosition) < 0.01f)
         {
             transform.position = targetPosition;
             IsMove = false;

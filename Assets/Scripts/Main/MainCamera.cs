@@ -9,6 +9,8 @@ public class MainCamera: MonoBehaviour
     float OffsetX;
     float OffsetY;
 
+    public float minX, maxX, minY, maxY;
+
     void Start()
     {
         if (Target == null)
@@ -27,6 +29,9 @@ public class MainCamera: MonoBehaviour
 
         pos.x = Target.position.x + OffsetX;
         pos.y = Target.position.y + OffsetY;
+
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
 
         transform.position = pos;
     }

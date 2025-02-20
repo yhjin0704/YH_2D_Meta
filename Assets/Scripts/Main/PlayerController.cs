@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerController : BaseController
 {
+    private Enter CurrentOnEnter = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,8 @@ public class PlayerController : BaseController
                 {
                     InputMove(keyPressed);
                 }
+
+                Interaction();
             }
         }
 
@@ -54,6 +58,34 @@ public class PlayerController : BaseController
             default:
                 Debug.Log("이동키가 아닌 값이 InputMove()메서드에 입력되었습니다.");
                 break;
+        }
+    }
+
+    void Interaction()
+    {
+        if (null == CurrentOnEnter)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown("f"))
+        {
+            CurrentOnEnter.EnterScene();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D _Col)
+    {
+        Enter enter = _Col.GetComponent<Enter>();
+
+        CurrentOnEnter = enter;
+    }
+
+    private void OnTriggerExit2D(Collider2D _Col)
+    {
+        if (_Col.GetComponent<Enter>() == CurrentOnEnter)
+        {
+            CurrentOnEnter = null;
         }
     }
 }

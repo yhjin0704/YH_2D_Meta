@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(DelayStart());
         uiManager.UpdateScore(0);
     }
 
@@ -56,5 +57,14 @@ public class GameManager : MonoBehaviour
         CurrentScore += _Score;
         uiManager.UpdateScore(CurrentScore);
         Debug.Log("Score: " + CurrentScore);
+    }
+
+    private IEnumerator DelayStart()
+    {
+        Time.timeScale = 0;
+
+        yield return new WaitForSecondsRealtime(3.0f);
+
+        Time.timeScale = 1;
     }
 }
